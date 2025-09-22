@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murunban - NadrethXMulan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            position: relative;
+        }
+        .glass {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.7), rgba(20, 20, 40, 0.8));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(220, 38, 127, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(59, 130, 246, 0.1);
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #dc2626 0%, #1e40af 50%, #000000 100%);
+        }
+        .premium-text {
+            background: linear-gradient(135deg, #ef4444, #3b82f6, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 1000;
+            pointer-events: none;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .text-editor {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(220, 38, 127, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .text-editor textarea {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            min-height: 150px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .text-editor textarea:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        .text-counter {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            text-align: right;
+            margin-top: 4px;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <!-- Watermark -->
+    <div class="watermark">by code Nadreth</div>
+
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="glass rounded-3xl p-10 max-w-lg w-full text-center text-white shadow-2xl">
+        <div class="mb-8">
+            <img id="logoImg" src="https://ar-hosting.pages.dev/1757945583882.jpg" alt="Logo Murunban" class="w-36 h-36 mx-auto rounded-2xl mb-6 transition-all duration-300 shadow-lg border-2 border-red-500/30 object-cover" onerror="this.style.display='block'; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjREMyNjI2IiByeD0iMTAiLz4KPHRleHQgeD0iNzAiIHk9IjUwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TVVSVU5CQU48L3RleHQ+Cjx0ZXh0IHg9IjcwIiB5PSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TmFkcmV0aFhNdWxhbjwvdGV4dD4KPHN2ZyB4PSI0NSIgeT0iOTAiIHdpZHRoPSI1MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0yNSA1TDM1IDIwSDMwTDI1IDEwTDIwIDIwSDE1TDI1IDVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+'">
+            <h1 class="text-4xl font-bold mb-3 premium-text">Hello Welcome</h1>
+            <h2 class="text-2xl text-gray-300 font-light tracking-wide">Murunban NadrethXMulan</h2>
+            <div class="w-24 h-1 premium-gradient mx-auto mt-4 rounded-full"></div>
+        </div>
+        <button id="startBtn" onclick="showLogin()" class="premium-gradient hover:shadow-2xl text-white font-bold py-4 px-10 rounded-xl transition-all duration-300 w-full text-lg tracking-wide hover:scale-105">
+            Mulai
+        </button>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="glass rounded-3xl p-10 max-w-lg w-full text-center text-white hidden shadow-2xl">
+        <h2 class="text-3xl font-bold mb-8 premium-text">Login</h2>
+        <div class="space-y-6">
+            <input type="text" id="username" placeholder="Username" class="w-full p-4 rounded-xl bg-black/40 text-white placeholder-gray-400 border border-red-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all">
+            <input type="password" id="password" placeholder="Password" class="w-full p-4 rounded-xl bg-black/40 text-white placeholder-gray-400 border border-red-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all">
+            <button id="loginBtn" onclick="checkLogin()" class="premium-gradient hover:shadow-2xl text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 w-full text-lg hover:scale-105">
+                Login
+            </button>
+        </div>
+        <div id="loginError" class="text-red-400 mt-6 hidden font-medium"></div>
+    </div>
+
+    <!-- Main Screen -->
+    <div id="mainScreen" class="glass rounded-3xl p-10 max-w-lg w-full text-center text-white hidden shadow-2xl">
+        <div class="mb-10">
+            <h1 class="text-3xl font-bold mb-8 p-8 bg-black/30 rounded-2xl premium-text border border-red-500/20">
+                Unban By NadrethXMulan
+            </h1>
+            <button id="unbanBtn" onclick="showUnbanForm()" class="premium-gradient hover:shadow-2xl text-white font-bold py-4 px-10 rounded-xl transition-all duration-300 w-full text-lg hover:scale-105 mb-6">
+                Unban Sekarang
+            </button>
+            <button id="mainLogoutBtn" onclick="logout()" class="bg-red-600 hover:bg-red-700 hover:shadow-xl text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Unban Form -->
+    <div id="unbanForm" class="glass rounded-3xl p-10 max-w-lg w-full text-center text-white hidden shadow-2xl">
+        <h2 class="text-3xl font-bold mb-8 premium-text">Form Unban</h2>
+        <div class="space-y-6">
+            <div class="flex rounded-xl overflow-hidden border border-red-500/30">
+                <span class="bg-black/50 px-4 py-4 text-white font-bold border-r border-red-500/30">+62</span>
+                <input type="tel" id="phoneNumber" placeholder="Masukkan nomor" class="flex-1 p-4 bg-black/40 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20">
+            </div>
+            <button id="gasUnbanBtn" onclick="processUnban()" class="premium-gradient hover:shadow-2xl text-white font-bold py-4 px-10 rounded-xl transition-all duration-300 w-full text-lg hover:scale-105">
+                Gas Unban
+            </button>
+        </div>
+        <button onclick="backToMain()" class="mt-6 text-blue-400 hover:text-blue-300 underline font-medium">
+            Kembali
+        </button>
+    </div>
+
+    <!-- Developer Panel -->
+    <div id="devPanel" class="glass rounded-3xl p-10 max-w-7xl w-full text-white hidden shadow-2xl">
+        <h2 class="text-4xl font-bold mb-8 premium-text text-center">Developer Panel</h2>
+        
+        <!-- Menu Navigation -->
+        <div class="flex space-x-6 mb-10 justify-center">
+            <button onclick="showDevMenu('unban')" id="unbanMenuBtn" class="premium-gradient hover:shadow-xl text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105">
+                Menu Unban
+            </button>
+            <button onclick="showDevMenu('accounts')" id="accountsMenuBtn" class="bg-gray-800 hover:bg-gray-700 border border-red-500/30 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105">
+                Kelola Akun
+            </button>
+        </div>
+
+        <!-- Unban Menu -->
+        <div id="devUnbanMenu" class="space-y-8">
+            <div class="bg-black/30 p-6 rounded-2xl border border-red-500/20">
+                <h3 class="text-2xl font-semibold mb-6 premium-text">Advanced Text Editor</h3>
+                <div class="mb-4 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <span class="text-lg font-medium text-gray-300">Total Messages: <span id="totalMessages" class="text-blue-400 font-bold">30</span></span>
+                    <div class="flex flex-wrap gap-3">
+                        <button id="addBtn" onclick="addNewMessage()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 min-w-[140px]">
+                            + Add Message
+                        </button>
+                        <button id="saveBtn" onclick="saveAllMessages()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 min-w-[140px]">
+                            Save All
+                        </button>
+                        <button id="resetBtn" onclick="resetToDefault()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 min-w-[140px]">
+                            Reset Default
+                        </button>
+                    </div>
+                </div>
+                <div id="messageEditors" class="space-y-4 max-h-96 overflow-y-auto">
+                    <!-- Message editors will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Test Unban -->
+            <div class="bg-black/30 p-6 rounded-2xl border border-blue-500/20">
+                <h4 class="text-xl font-semibold mb-4 text-blue-400">Test Unban System</h4>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="tel" id="testPhone" placeholder="Nomor test" class="flex-1 p-3 rounded-xl bg-black/50 text-white placeholder-gray-400 border border-blue-500/30 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20">
+                    <button id="testBtn" onclick="testUnban()" class="premium-gradient hover:shadow-xl text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 min-w-[140px]">
+                        Test Preview
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts Menu -->
+        <div id="devAccountsMenu" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-black/30 p-6 rounded-2xl border border-green-500/20">
+                    <h3 class="text-2xl font-semibold mb-6 text-green-400">Create New Account</h3>
+                    <div class="space-y-4">
+                        <input type="text" id="newUsername" placeholder="Username baru" class="w-full p-4 rounded-xl bg-black/50 text-white placeholder-gray-400 border border-green-500/30 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all">
+                        <input type="password" id="newPassword" placeholder="Password baru" class="w-full p-4 rounded-xl bg-black/50 text-white placeholder-gray-400 border border-green-500/30 focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all">
+                        <button id="createBtn" onclick="createAccount()" class="bg-green-600 hover:bg-green-700 hover:shadow-xl text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 w-full hover:scale-105 min-h-[50px]">
+                            Create Account
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-black/30 p-6 rounded-2xl border border-purple-500/20">
+                    <h3 class="text-2xl font-semibold mb-6 text-purple-400">Account Management</h3>
+                    <div id="accountList" class="space-y-3 max-h-80 overflow-y-auto">
+                        <!-- Account list will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-10">
+            <button id="logoutBtn" onclick="logout()" class="bg-red-600 hover:bg-red-700 hover:shadow-xl text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced message management system with multi-language support
+        let unbanMessages = [];
+        let isProcessing = false;
+        
+        function getDefaultMessages() {
+            return [
+                // Indonesian Messages
+                "Kepada Yang Terhormat Tim Support WhatsApp, Saya dengan hormat mengajukan permohonan banding untuk nomor telepon (nomor) yang telah mengalami pemblokiran akses. Saya adalah pengguna aktif WhatsApp yang telah menggunakan platform ini selama bertahun-tahun untuk keperluan komunikasi bisnis dan personal yang sangat penting. Nomor tersebut merupakan nomor utama yang saya gunakan untuk berbagai aktivitas profesional, termasuk komunikasi dengan klien, rekan kerja, dan keluarga. Pemblokiran ini sangat mempengaruhi aktivitas sehari-hari saya karena banyak kontak penting yang hanya dapat saya hubungi melalui WhatsApp. Saya yakin bahwa pemblokiran ini terjadi karena kesalahpahaman atau mungkin ada aktivitas yang tidak sengaja melanggar ketentuan, namun saya dapat memastikan bahwa saya selalu berusaha mematuhi semua aturan dan kebijakan WhatsApp. Sebagai pengguna yang bertanggung jawab, saya telah mempelajari kembali semua terms of service dan community guidelines yang berlaku untuk memastikan tidak ada pelanggaran yang terulang di masa mendatang. Saya mohon dengan sangat agar Tim Support dapat meninjau kembali kasus ini dan memberikan kesempatan kedua untuk menggunakan layanan WhatsApp. Saya berkomitmen untuk lebih berhati-hati dalam penggunaan platform ini ke depannya dan akan memastikan semua aktivitas sesuai dengan ketentuan yang berlaku. Terima kasih atas perhatian dan bantuan yang diberikan dalam meninjau permohonan banding ini.",
+
+                // English Messages
+                "Dear WhatsApp Support Team, I am writing to formally request an appeal for the suspension of my WhatsApp account associated with phone number (nomor). This account has been an integral part of my daily communication for both personal and professional purposes over the past several years. The suspension has caused significant disruption to my business operations as I rely heavily on WhatsApp for client communications, team coordination, and customer service activities. I have always strived to use WhatsApp in accordance with the community guidelines and terms of service, and I believe this suspension may be the result of a misunderstanding or automated system error. My business depends on reliable communication channels, and WhatsApp has been my primary platform for maintaining relationships with over 500 active contacts including international clients and business partners across various industries. I have reviewed the WhatsApp Terms of Service and Community Guidelines thoroughly to understand any potential issues that may have led to this suspension, and I am committed to ensuring full compliance moving forward. I respectfully request that you reconsider this suspension and restore access to my account so I can continue serving my clients and maintaining the professional relationships that are essential to my business operations. I am willing to provide any additional information or documentation that may be required to resolve this matter promptly. I understand the importance of maintaining a safe and secure platform for all users, and I assure you of my commitment to responsible usage. Thank you for your time and consideration in reviewing this appeal.",
+
+                // Spanish Messages
+                "Estimado Equipo de Soporte de WhatsApp, Me dirijo a ustedes con el máximo respeto para solicitar formalmente una apelación por la suspensión de mi cuenta de WhatsApp asociada al número telefónico (nomor). Esta cuenta ha sido una parte fundamental de mi comunicación diaria tanto para propósitos personales como profesionales durante varios años. La suspensión ha causado una interrupción significativa en mis operaciones comerciales, ya que dependo en gran medida de WhatsApp para las comunicaciones con clientes, coordinación de equipos y actividades de servicio al cliente. Siempre me he esforzado por usar WhatsApp de acuerdo con las pautas de la comunidad y los términos de servicio, y creo que esta suspensión puede ser el resultado de un malentendido o error del sistema automatizado. Mi negocio depende de canales de comunicación confiables, y WhatsApp ha sido mi plataforma principal para mantener relaciones con más de 500 contactos activos, incluyendo clientes internacionales y socios comerciales de diversas industrias. He revisado minuciosamente los Términos de Servicio y las Pautas de la Comunidad de WhatsApp para entender cualquier problema potencial que pueda haber llevado a esta suspensión, y estoy comprometido a asegurar el cumplimiento total en el futuro. Respetuosamente solicito que reconsideren esta suspensión y restauren el acceso a mi cuenta para que pueda continuar sirviendo a mis clientes y manteniendo las relaciones profesionales que son esenciales para mis operaciones comerciales. Estoy dispuesto a proporcionar cualquier información adicional o documentación que pueda ser requerida para resolver este asunto prontamente.",
+
+                // French Messages
+                "Cher Équipe de Support WhatsApp, Je vous écris avec le plus grand respect pour demander formellement un appel concernant la suspension de mon compte WhatsApp associé au numéro de téléphone (nomor). Ce compte a été une partie intégrante de ma communication quotidienne à des fins personnelles et professionnelles au cours des dernières années. La suspension a causé une perturbation significative dans mes opérations commerciales car je dépends fortement de WhatsApp pour les communications avec les clients, la coordination d'équipe et les activités de service client. J'ai toujours cherché à utiliser WhatsApp conformément aux directives de la communauté et aux conditions de service, et je crois que cette suspension peut être le résultat d'un malentendu ou d'une erreur du système automatisé. Mon entreprise dépend de canaux de communication fiables, et WhatsApp a été ma plateforme principale pour maintenir des relations avec plus de 500 contacts actifs, y compris des clients internationaux et des partenaires commerciaux de diverses industries. J'ai examiné minutieusement les Conditions de Service et les Directives de la Communauté de WhatsApp pour comprendre tout problème potentiel qui aurait pu mener à cette suspension, et je suis engagé à assurer une conformité totale à l'avenir. Je demande respectueusement que vous reconsidériez cette suspension et restauriez l'accès à mon compte afin que je puisse continuer à servir mes clients et maintenir les relations professionnelles qui sont essentielles à mes opérations commerciales. Je suis prêt à fournir toute information supplémentaire ou documentation qui pourrait être requise pour résoudre cette affaire rapidement.",
+
+                // German Messages
+                "Sehr geehrtes WhatsApp Support Team, Ich wende mich mit größtem Respekt an Sie, um formell eine Berufung bezüglich der Sperrung meines WhatsApp-Kontos mit der Telefonnummer (nomor) zu beantragen. Dieses Konto war über mehrere Jahre hinweg ein integraler Bestandteil meiner täglichen Kommunikation sowohl für persönliche als auch berufliche Zwecke. Die Sperrung hat erhebliche Störungen in meinen Geschäftsabläufen verursacht, da ich stark auf WhatsApp für Kundenkommunikation, Teamkoordination und Kundenservice-Aktivitäten angewiesen bin. Ich habe immer danach gestrebt, WhatsApp in Übereinstimmung mit den Community-Richtlinien und Nutzungsbedingungen zu verwenden, und ich glaube, dass diese Sperrung das Ergebnis eines Missverständnisses oder eines automatisierten Systemfehlers sein könnte. Mein Unternehmen ist auf zuverlässige Kommunikationskanäle angewiesen, und WhatsApp war meine primäre Plattform zur Pflege von Beziehungen mit über 500 aktiven Kontakten, einschließlich internationaler Kunden und Geschäftspartner aus verschiedenen Branchen. Ich habe die WhatsApp-Nutzungsbedingungen und Community-Richtlinien gründlich überprüft, um potenzielle Probleme zu verstehen, die zu dieser Sperrung geführt haben könnten, und ich bin verpflichtet, zukünftig vollständige Compliance sicherzustellen. Ich bitte Sie respektvoll, diese Sperrung zu überdenken und den Zugang zu meinem Konto wiederherzustellen, damit ich weiterhin meine Kunden bedienen und die beruflichen Beziehungen aufrechterhalten kann, die für meine Geschäftstätigkeit wesentlich sind. Ich bin bereit, zusätzliche Informationen oder Dokumentationen bereitzustellen, die zur prompten Lösung dieser Angelegenheit erforderlich sein könnten.",
+
+                // Portuguese Messages
+                "Prezada Equipe de Suporte do WhatsApp, Dirijo-me a vocês com o máximo respeito para solicitar formalmente um recurso sobre a suspensão da minha conta do WhatsApp associada ao número de telefone (nomor). Esta conta tem sido uma parte integral da minha comunicação diária para propósitos pessoais e profissionais ao longo dos últimos anos. A suspensão causou uma interrupção significativa nas minhas operações comerciais, pois dependo muito do WhatsApp para comunicações com clientes, coordenação de equipe e atividades de atendimento ao cliente. Sempre me esforcei para usar o WhatsApp de acordo com as diretrizes da comunidade e termos de serviço, e acredito que esta suspensão pode ser o resultado de um mal-entendido ou erro do sistema automatizado. Meu negócio depende de canais de comunicação confiáveis, e o WhatsApp tem sido minha plataforma principal para manter relacionamentos com mais de 500 contatos ativos, incluindo clientes internacionais e parceiros comerciais de várias indústrias. Revisei minuciosamente os Termos de Serviço e Diretrizes da Comunidade do WhatsApp para entender quaisquer problemas potenciais que possam ter levado a esta suspensão, e estou comprometido em garantir total conformidade no futuro. Respeitosamente solicito que reconsiderem esta suspensão e restaurem o acesso à minha conta para que eu possa continuar servindo meus clientes e mantendo os relacionamentos profissionais que são essenciais para minhas operações comerciais. Estou disposto a fornecer qualquer informação adicional ou documentação que possa ser necessária para resolver este assunto prontamente.",
+
+                // Italian Messages
+                "Gentile Team di Supporto WhatsApp, Mi rivolgo a voi con il massimo rispetto per richiedere formalmente un ricorso riguardo la sospensione del mio account WhatsApp associato al numero di telefono (nomor). Questo account è stato una parte integrante della mia comunicazione quotidiana per scopi personali e professionali negli ultimi anni. La sospensione ha causato un'interruzione significativa nelle mie operazioni commerciali poiché dipendo molto da WhatsApp per le comunicazioni con i clienti, il coordinamento del team e le attività di servizio clienti. Ho sempre cercato di utilizzare WhatsApp in conformità con le linee guida della comunità e i termini di servizio, e credo che questa sospensione possa essere il risultato di un malinteso o di un errore del sistema automatizzato. La mia attività dipende da canali di comunicazione affidabili, e WhatsApp è stata la mia piattaforma principale per mantenere relazioni con oltre 500 contatti attivi, inclusi clienti internazionali e partner commerciali di varie industrie. Ho esaminato accuratamente i Termini di Servizio e le Linee Guida della Comunità di WhatsApp per comprendere eventuali problemi che potrebbero aver portato a questa sospensione, e sono impegnato a garantire la piena conformità in futuro. Chiedo rispettosamente di riconsiderare questa sospensione e ripristinare l'accesso al mio account in modo che possa continuare a servire i miei clienti e mantenere le relazioni professionali che sono essenziali per le mie operazioni commerciali. Sono disposto a fornire qualsiasi informazione aggiuntiva o documentazione che possa essere richiesta per risolvere questa questione prontamente.",
+
+                // Dutch Messages
+                "Geachte WhatsApp Ondersteuningsteam, Ik wend mij tot u met het grootste respect om formeel een beroep aan te vragen betreffende de opschorting van mijn WhatsApp-account gekoppeld aan telefoonnummer (nomor). Dit account is de afgelopen jaren een integraal onderdeel geweest van mijn dagelijkse communicatie voor zowel persoonlijke als professionele doeleinden. De opschorting heeft aanzienlijke verstoring veroorzaakt in mijn bedrijfsvoering omdat ik sterk afhankelijk ben van WhatsApp voor klantcommunicatie, teamcoördinatie en klantenservice-activiteiten. Ik heb altijd gestreefd naar het gebruik van WhatsApp in overeenstemming met de communityrichtlijnen en servicevoorwaarden, en ik geloof dat deze opschorting het gevolg kan zijn van een misverstand of geautomatiseerde systeemfout. Mijn bedrijf is afhankelijk van betrouwbare communicatiekanalen, en WhatsApp is mijn primaire platform geweest voor het onderhouden van relaties met meer dan 500 actieve contacten, waaronder internationale klanten en zakenpartners uit verschillende industrieën. Ik heb de WhatsApp Servicevoorwaarden en Communityrichtlijnen grondig bestudeerd om potentiële problemen te begrijpen die tot deze opschorting kunnen hebben geleid, en ik ben toegewijd aan het waarborgen van volledige naleving in de toekomst. Ik verzoek u respectvol om deze opschorting te heroverwegen en de toegang tot mijn account te herstellen zodat ik mijn klanten kan blijven bedienen en de professionele relaties kan onderhouden die essentieel zijn voor mijn bedrijfsvoering. Ik ben bereid om aanvullende informatie of documentatie te verstrekken die mogelijk vereist is om deze kwestie snel op te lossen.",
+
+                // Russian Messages
+                "Уважаемая команда поддержки WhatsApp, Обращаюсь к вам с величайшим уважением, чтобы формально запросить апелляцию относительно приостановки моего аккаунта WhatsApp, связанного с номером телефона (nomor). Этот аккаунт был неотъемлемой частью моего ежедневного общения как для личных, так и для профессиональных целей в течение последних нескольких лет. Приостановка вызвала значительные нарушения в моих деловых операциях, поскольку я сильно полагаюсь на WhatsApp для общения с клиентами, координации команды и деятельности по обслуживанию клиентов. Я всегда стремился использовать WhatsApp в соответствии с руководящими принципами сообщества и условиями обслуживания, и я считаю, что эта приостановка может быть результатом недоразумения или ошибки автоматизированной системы. Мой бизнес зависит от надежных каналов связи, и WhatsApp был моей основной платформой для поддержания отношений с более чем 500 активными контактами, включая международных клиентов и деловых партнеров из различных отраслей. Я тщательно изучил Условия обслуживания и Руководящие принципы сообщества WhatsApp, чтобы понять любые потенциальные проблемы, которые могли привести к этой приостановке, и я привержен обеспечению полного соответствия в будущем. Я уважительно прошу вас пересмотреть эту приостановку и восстановить доступ к моему аккаунту, чтобы я мог продолжать обслуживать своих клиентов и поддерживать профессиональные отношения, которые необходимы для моих деловых операций. Я готов предоставить любую дополнительную информацию или документацию, которая может потребоваться для быстрого решения этого вопроса.",
+
+                // Japanese Messages
+                "WhatsAppサポートチームの皆様へ、電話番号(nomor)に関連付けられたWhatsAppアカウントの停止に関して、正式に異議申し立てを要請するため、最大限の敬意を持ってご連絡いたします。このアカウントは、過去数年間にわたって個人的および職業的な目的での日常的なコミュニケーションの不可欠な部分でした。停止により、クライアントとのコミュニケーション、チーム調整、カスタマーサービス活動にWhatsAppに大きく依存しているため、私のビジネス運営に重大な混乱が生じました。私は常にコミュニティガイドラインと利用規約に従ってWhatsAppを使用するよう努めており、この停止は誤解や自動化されたシステムエラーの結果である可能性があると考えています。私のビジネスは信頼できるコミュニケーションチャネルに依存しており、WhatsAppは様々な業界の国際的なクライアントやビジネスパートナーを含む500以上のアクティブな連絡先との関係を維持するための主要なプラットフォームでした。この停止につながった可能性のある潜在的な問題を理解するために、WhatsAppの利用規約とコミュニティガイドラインを徹底的に確認し、今後完全な遵守を確保することにコミットしています。この停止を再考し、私のアカウントへのアクセスを復元していただき、クライアントへのサービス提供を継続し、私のビジネス運営に不可欠な専門的関係を維持できるよう、謹んでお願いいたします。この問題を迅速に解決するために必要な追加情報や文書を提供する用意があります。",
+
+                // Arabic Messages
+                "فريق دعم واتساب المحترم، أتوجه إليكم بأقصى درجات الاحترام لطلب استئناف رسمي بخصوص تعليق حساب واتساب الخاص بي المرتبط برقم الهاتف (nomor). لقد كان هذا الحساب جزءاً لا يتجزأ من تواصلي اليومي لأغراض شخصية ومهنية على مدى السنوات القليلة الماضية. لقد تسبب التعليق في اضطراب كبير في عملياتي التجارية حيث أعتمد بشكل كبير على واتساب للتواصل مع العملاء وتنسيق الفريق وأنشطة خدمة العملاء. لقد سعيت دائماً لاستخدام واتساب وفقاً لإرشادات المجتمع وشروط الخدمة، وأعتقد أن هذا التعليق قد يكون نتيجة لسوء فهم أو خطأ في النظام الآلي. يعتمد عملي على قنوات اتصال موثوقة، وكان واتساب منصتي الأساسية للحفاظ على العلاقات مع أكثر من 500 جهة اتصال نشطة بما في ذلك العملاء الدوليين والشركاء التجاريين من مختلف الصناعات. لقد راجعت بعناية شروط خدمة واتساب وإرشادات المجتمع لفهم أي مشاكل محتملة قد تكون أدت إلى هذا التعليق، وأنا ملتزم بضمان الامتثال الكامل في المستقبل. أطلب منكم بكل احترام إعادة النظر في هذا التعليق واستعادة الوصول إلى حسابي حتى أتمكن من مواصلة خدمة عملائي والحفاظ على العلاقات المهنية التي تعتبر ضرورية لعملياتي التجارية. أنا مستعد لتقديم أي معلومات إضافية أو وثائق قد تكون مطلوبة لحل هذه المسألة بسرعة.",
+
+                // Chinese Messages
+                "尊敬的WhatsApp支持团队，我怀着最大的敬意向您们正式申请对与电话号码(nomor)相关联的WhatsApp账户暂停的申诉。在过去几年中，这个账户一直是我日常个人和专业沟通的重要组成部分。暂停给我的业务运营造成了重大干扰，因为我严重依赖WhatsApp进行客户沟通、团队协调和客户服务活动。我一直努力按照社区准则和服务条款使用WhatsApp，我相信这次暂停可能是误解或自动化系统错误的结果。我的业务依赖于可靠的沟通渠道，WhatsApp一直是我维护与500多个活跃联系人关系的主要平台，包括来自各个行业的国际客户和商业伙伴。我已经仔细审查了WhatsApp的服务条款和社区准则，以了解可能导致此次暂停的任何潜在问题，我承诺确保未来完全合规。我恳请您们重新考虑这次暂停并恢复我对账户的访问权限，以便我能够继续为客户提供服务并维护对我的业务运营至关重要的专业关系。我愿意提供可能需要的任何额外信息或文档来迅速解决这个问题。我理解维护所有用户安全可靠平台的重要性，我向您们保证我对负责任使用的承诺。感谢您们花时间考虑审查这个申诉。",
+
+                // Korean Messages
+                "존경하는 WhatsApp 지원팀 여러분께, 전화번호 (nomor)와 연결된 WhatsApp 계정 정지에 대해 정식으로 이의신청을 요청하기 위해 최대한의 존경심을 가지고 연락드립니다. 이 계정은 지난 몇 년 동안 개인적이고 전문적인 목적을 위한 일상적인 커뮤니케이션의 필수적인 부분이었습니다. 정지로 인해 고객 커뮤니케이션, 팀 조정 및 고객 서비스 활동을 위해 WhatsApp에 크게 의존하고 있기 때문에 제 비즈니스 운영에 상당한 차질이 생겼습니다. 저는 항상 커뮤니티 가이드라인과 서비스 약관에 따라 WhatsApp을 사용하려고 노력해왔으며, 이번 정지는 오해나 자동화된 시스템 오류의 결과일 수 있다고 생각합니다. 제 비즈니스는 신뢰할 수 있는 커뮤니케이션 채널에 의존하고 있으며, WhatsApp은 다양한 산업의 국제 고객과 비즈니스 파트너를 포함한 500개 이상의 활성 연락처와의 관계를 유지하기 위한 주요 플랫폼이었습니다. 이번 정지로 이어질 수 있는 잠재적인 문제를 이해하기 위해 WhatsApp의 서비스 약관과 커뮤니티 가이드라인을 철저히 검토했으며, 향후 완전한 준수를 보장하기 위해 최선을 다하고 있습니다. 이번 정지를 재고하시고 제 계정에 대한 액세스를 복원해 주셔서 고객에게 계속 서비스를 제공하고 제 비즈니스 운영에 필수적인 전문적 관계를 유지할 수 있도록 정중히 요청드립니다. 이 문제를 신속히 해결하기 위해 필요한 추가 정보나 문서를 제공할 준비가 되어 있습니다.",
+
+                // Hindi Messages
+                "आदरणीय WhatsApp सहायता टीम, मैं फोन नंबर (nomor) से जुड़े मेरे WhatsApp खाते के निलंबन के संबंध में औपचारिक रूप से अपील का अनुरोध करने के लिए अत्यधिक सम्मान के साथ आपसे संपर्क कर रहा हूं। यह खाता पिछले कई वर्षों से व्यक्तिगत और व्यावसायिक उद्देश्यों के लिए मेरे दैनिक संचार का एक अभिन्न अंग रहा है। निलंबन ने मेरे व्यावसायिक संचालन में महत्वपूर्ण व्यवधान पैदा किया है क्योंकि मैं ग्राहक संचार, टीम समन्वय और ग्राहक सेवा गतिविधियों के लिए WhatsApp पर बहुत अधिक निर्भर हूं। मैंने हमेशा समुदायिक दिशानिर्देशों और सेवा की शर्तों के अनुसार WhatsApp का उपयोग करने का प्रयास किया है, और मेरा मानना है कि यह निलंबन गलतफहमी या स्वचालित सिस्टम त्रुटि का परिणाम हो सकता है। मेरा व्यवसाय विश्वसनीय संचार चैनलों पर निर्भर करता है, और WhatsApp विभिन्न उद्योगों के अंतर्राष्ट्रीय ग्राहकों और व्यावसायिक भागीदारों सहित 500 से अधिक सक्रिय संपर्कों के साथ संबंध बनाए रखने के लिए मेरा प्राथमिक मंच रहा है। मैंने इस निलंबन का कारण बनने वाली किसी भी संभावित समस्या को समझने के लिए WhatsApp की सेवा की शर्तों और समुदायिक दिशानिर्देशों की पूरी तरह से समीक्षा की है, और मैं भविष्य में पूर्ण अनुपालन सुनिश्चित करने के लिए प्रतिबद्ध हूं। मैं सम्मानपूर्वक अनुरोध करता हूं कि आप इस निलंबन पर पुनर्विचार करें और मेरे खाते तक पहुंच बहाल करें ताकि मैं अपने ग्राहकों की सेवा जारी रख सकूं और उन व्यावसायिक संबंधों को बनाए रख सकूं जो मेरे व्यावसायिक संचालन के लिए आवश्यक हैं।",
+
+                // Turkish Messages
+                "Sayın WhatsApp Destek Ekibi, Telefon numarası (nomor) ile ilişkili WhatsApp hesabımın askıya alınması konusunda resmi olarak itiraz talebinde bulunmak için size en büyük saygıyla başvuruyorum. Bu hesap, son birkaç yıl boyunca kişisel ve profesyonel amaçlar için günlük iletişimimin ayrılmaz bir parçası olmuştur. Askıya alma, müşteri iletişimi, ekip koordinasyonu ve müşteri hizmetleri faaliyetleri için WhatsApp'a büyük ölçüde bağımlı olduğum için iş operasyonlarımda önemli aksamalara neden olmuştur. Her zaman topluluk yönergelerine ve hizmet şartlarına uygun olarak WhatsApp kullanmaya çalıştım ve bu askıya almanın bir yanlış anlama veya otomatik sistem hatasının sonucu olabileceğine inanıyorum. İşim güvenilir iletişim kanallarına bağımlıdır ve WhatsApp, çeşitli endüstrilerden uluslararası müşteriler ve iş ortakları dahil olmak üzere 500'den fazla aktif kişiyle ilişkileri sürdürmek için birincil platformum olmuştur. Bu askıya almaya yol açmış olabilecek potansiyel sorunları anlamak için WhatsApp'ın Hizmet Şartları ve Topluluk Yönergelerini kapsamlı bir şekilde inceledim ve gelecekte tam uyumu sağlamaya kararlıyım. Bu askıya almayı yeniden değerlendirmenizi ve müşterilerime hizmet vermeye devam edebilmem ve iş operasyonlarım için gerekli olan profesyonel ilişkileri sürdürebilmem için hesabıma erişimi geri yüklemenizi saygıyla rica ediyorum. Bu konuyu hızla çözmek için gerekli olabilecek herhangi bir ek bilgi veya belge sağlamaya hazırım. Tüm kullanıcılar için güvenli ve emniyetli bir platform sürdürmenin önemini anlıyorum ve sorumlu kullanım konusundaki kararlılığımı size garanti ediyorum.",
+
+                // Thai Messages
+                "เรียน ทีมสนับสนุน WhatsApp ที่เคารพ ข้าพเจ้าขอติดต่อท่านด้วยความเคารพสูงสุดเพื่อขอยื่นอุทธรณ์อย่างเป็นทางการเกี่ยวกับการระงับบัญชี WhatsApp ของข้าพเจ้าที่เชื่อมโยงกับหมายเลขโทรศัพท์ (nomor) บัญชีนี้เป็นส่วนสำคัญของการสื่อสารประจำวันของข้าพเจ้าทั้งเพื่อวัตถุประสงค์ส่วนตัวและทางอาชีพมาหลายปีแล้ว การระงับได้ก่อให้เกิดการหยุดชะงักอย่างมีนัยสำคัญในการดำเนินธุรกิจของข้าพเจ้า เนื่องจากข้าพเจ้าพึ่พา WhatsApp อย่างมากสำหรับการสื่อสารกับลูกค้า การประสานงานทีม และกิจกรรมการบริการลูกค้า ข้าพเจ้าได้พยายามใช้ WhatsApp ให้สอดคล้องกับแนวทางชุมชนและข้อกำหนดการให้บริการเสมอมา และข้าพเจ้าเชื่อว่าการระงับครั้งนี้อาจเป็นผลมาจากความเข้าใจผิดหรือข้อผิดพลาดของระบบอัตโนมัติ ธุรกิจของข้าพเจ้าขึ้นอยู่กับช่องทางการสื่อสารที่เชื่อถือได้ และ WhatsApp เป็นแพลตฟอร์มหลักของข้าพเจ้าในการรักษาความสัมพันธ์กับผู้ติดต่อที่ใช้งานอยู่มากกว่า 500 ราย รวมถึงลูกค้าต่างประเทศและพันธมิตรทางธุรกิจจากอุตสาหกรรมต่างๆ ข้าพเจ้าได้ตรวจสอบข้อกำหนดการให้บริการและแนวทางชุมชนของ WhatsApp อย่างละเอียดเพื่อทำความเข้าใจปัญหาที่อาจเกิดขึ้นซึ่งอาจนำไปสู่การระงับครั้งนี้ และข้าพเจ้ามุ่งมั่นที่จะรับประกันการปฏิบัติตามอย่างเต็มที่ในอนาคต ข้าพเจ้าขอให้ท่านพิจารณาการระงับครั้งนี้ใหม่และคืนสิทธิ์การเข้าถึงบัญชีของข้าพเจ้าเพื่อให้ข้าพเจ้าสามารถให้บริการลูกค้าต่อไปและรักษาความสัมพันธ์ทางอาชีพที่จำเป็นสำหรับการดำเนินธุรกิจของข้าพเจ้า",
+
+                // Vietnamese Messages
+                "Kính gửi Đội hỗ trợ WhatsApp, Tôi xin liên hệ với quý vị với sự tôn trọng cao nhất để chính thức yêu cầu kháng cáo về việc tạm ngừng tài khoản WhatsApp của tôi được liên kết với số điện thoại (nomor). Tài khoản này đã là một phần không thể thiếu trong giao tiếp hàng ngày của tôi cho cả mục đích cá nhân và nghề nghiệp trong vài năm qua. Việc tạm ngừng đã gây ra sự gián đoạn đáng kể trong hoạt động kinh doanh của tôi vì tôi phụ thuộc rất nhiều vào WhatsApp để giao tiếp với khách hàng, điều phối nhóm và các hoạt động dịch vụ khách hàng. Tôi luôn cố gắng sử dụng WhatsApp phù hợp với các hướng dẫn cộng đồng và điều khoản dịch vụ, và tôi tin rằng việc tạm ngừng này có thể là kết quả của sự hiểu lầm hoặc lỗi hệ thống tự động. Doanh nghiệp của tôi phụ thuộc vào các kênh giao tiếp đáng tin cậy, và WhatsApp đã là nền tảng chính của tôi để duy trì mối quan hệ với hơn 500 liên hệ hoạt động bao gồm khách hàng quốc tế và đối tác kinh doanh từ các ngành công nghiệp khác nhau. Tôi đã xem xét kỹ lưỡng Điều khoản Dịch vụ và Hướng dẫn Cộng đồng của WhatsApp để hiểu bất kỳ vấn đề tiềm ẩn nào có thể dẫn đến việc tạm ngừng này, và tôi cam kết đảm bảo tuân thủ đầy đủ trong tương lai. Tôi kính cẩn yêu cầu quý vị xem xét lại việc tạm ngừng này và khôi phục quyền truy cập vào tài khoản của tôi để tôi có thể tiếp tục phục vụ khách hàng và duy trì các mối quan hệ nghề nghiệp cần thiết cho hoạt động kinh doanh của tôi. Tôi sẵn sàng cung cấp bất kỳ thông tin bổ sung hoặc tài liệu nào có thể được yêu cầu để giải quyết vấn đề này một cách nhanh chóng.",
+
+                // Malay Messages
+                "Yang Dihormati Pasukan Sokongan WhatsApp, Saya menghubungi anda dengan penghormatan yang tinggi untuk memohon rayuan secara rasmi mengenai penggantungan akaun WhatsApp saya yang dikaitkan dengan nombor telefon (nomor). Akaun ini telah menjadi bahagian penting dalam komunikasi harian saya untuk tujuan peribadi dan profesional selama beberapa tahun yang lalu. Penggantungan telah menyebabkan gangguan yang ketara dalam operasi perniagaan saya kerana saya sangat bergantung kepada WhatsApp untuk komunikasi pelanggan, penyelarasan pasukan dan aktiviti perkhidmatan pelanggan. Saya sentiasa berusaha untuk menggunakan WhatsApp mengikut garis panduan komuniti dan terma perkhidmatan, dan saya percaya bahawa penggantungan ini mungkin adalah hasil daripada salah faham atau ralat sistem automatik. Perniagaan saya bergantung kepada saluran komunikasi yang boleh dipercayai, dan WhatsApp telah menjadi platform utama saya untuk mengekalkan hubungan dengan lebih daripada 500 kenalan aktif termasuk pelanggan antarabangsa dan rakan kongsi perniagaan dari pelbagai industri. Saya telah mengkaji dengan teliti Terma Perkhidmatan dan Garis Panduan Komuniti WhatsApp untuk memahami sebarang isu yang berpotensi yang mungkin membawa kepada penggantungan ini, dan saya komited untuk memastikan pematuhan penuh pada masa hadapan. Saya dengan hormatnya memohon agar anda mempertimbangkan semula penggantungan ini dan memulihkan akses kepada akaun saya supaya saya boleh terus berkhidmat kepada pelanggan saya dan mengekalkan hubungan profesional yang penting untuk operasi perniagaan saya. Saya bersedia untuk memberikan sebarang maklumat tambahan atau dokumentasi yang mungkin diperlukan untuk menyelesaikan perkara ini dengan segera.",
+
+                // Swedish Messages
+                "Kära WhatsApp supportteam, Jag kontaktar er med största respekt för att formellt begära överklagande angående avstängningen av mitt WhatsApp-konto kopplat till telefonnummer (nomor). Detta konto har varit en integrerad del av min dagliga kommunikation för både personliga och professionella syften under de senaste åren. Avstängningen har orsakat betydande störningar i min affärsverksamhet eftersom jag är starkt beroende av WhatsApp för kundkommunikation, teamkoordination och kundserviceaktiviteter. Jag har alltid strävat efter att använda WhatsApp i enlighet med gemenskapsriktlinjerna och användarvillkoren, och jag tror att denna avstängning kan vara resultatet av ett missförstånd eller automatiserat systemfel. Min verksamhet är beroende av pålitliga kommunikationskanaler, och WhatsApp har varit min primära plattform för att upprätthålla relationer med över 500 aktiva kontakter inklusive internationella kunder och affärspartners från olika branscher. Jag har noggrant granskat WhatsApps användarvillkor och gemenskapsriktlinjer för att förstå eventuella problem som kan ha lett till denna avstängning, och jag är engagerad i att säkerställa full efterlevnad framöver. Jag ber er respektfullt att ompröva denna avstängning och återställa åtkomsten till mitt konto så att jag kan fortsätta att betjäna mina kunder och upprätthålla de professionella relationer som är väsentliga för min affärsverksamhet. Jag är villig att tillhandahålla ytterligare information eller dokumentation som kan krävas för att lösa denna fråga snabbt.",
+
+                // Norwegian Messages
+                "Kjære WhatsApp supportteam, Jeg kontakter dere med største respekt for å formelt be om anke angående suspenderingen av min WhatsApp-konto knyttet til telefonnummer (nomor). Denne kontoen har vært en integrert del av min daglige kommunikasjon for både personlige og profesjonelle formål de siste årene. Suspenderingen har forårsaket betydelige forstyrrelser i min forretningsdrift siden jeg er sterkt avhengig av WhatsApp for kundekommunikasjon, teamkoordinering og kundeserviceaktiviteter. Jeg har alltid forsøkt å bruke WhatsApp i samsvar med fellesskapets retningslinjer og tjenestevilkår, og jeg tror denne suspenderingen kan være resultatet av en misforståelse eller automatisert systemfeil. Min virksomhet er avhengig av pålitelige kommunikasjonskanaler, og WhatsApp har vært min primære plattform for å opprettholde relasjoner med over 500 aktive kontakter inkludert internasjonale kunder og forretningspartnere fra ulike bransjer. Jeg har grundig gjennomgått WhatsApps tjenestevilkår og fellesskapets retningslinjer for å forstå eventuelle problemer som kan ha ført til denne suspenderingen, og jeg er forpliktet til å sikre full overholdelse fremover. Jeg ber dere respektfullt om å revurdere denne suspenderingen og gjenopprette tilgangen til kontoen min slik at jeg kan fortsette å betjene mine kunder og opprettholde de profesjonelle relasjonene som er essensielle for min forretningsdrift. Jeg er villig til å gi ytterligere informasjon eller dokumentasjon som kan være nødvendig for å løse denne saken raskt.",
+
+                // Finnish Messages
+                "Arvoisa WhatsApp-tukitiimi, Otan teihin yhteyttä suurimmalla kunnioituksella pyytääkseni muodollisesti valitusta WhatsApp-tilini jäädyttämisestä, joka on yhdistetty puhelinnumeroon (nomor). Tämä tili on ollut olennainen osa päivittäistä viestintääni sekä henkilökohtaisiin että ammatillisiin tarkoituksiin useiden vuosien ajan. Jäädyttäminen on aiheuttanut merkittäviä häiriöitä liiketoiminnassani, koska olen vahvasti riippuvainen WhatsAppista asiakasviestinnässä, tiimin koordinoinnissa ja asiakaspalvelutoiminnoissa. Olen aina pyrkinyt käyttämään WhatsAppia yhteisön ohjeiden ja käyttöehtojen mukaisesti, ja uskon, että tämä jäädyttäminen saattaa olla seurausta väärinkäsityksestä tai automaattisesta järjestelmävirheestä. Liiketoimintani riippuu luotettavista viestintäkanavista, ja WhatsApp on ollut ensisijainen alustani yli 500 aktiivisen kontaktin kanssa suhteiden ylläpitämiseen, mukaan lukien kansainväliset asiakkaat ja liikekumppanit eri toimialoilta. Olen huolellisesti tarkastellut WhatsAppin käyttöehtoja ja yhteisön ohjeita ymmärtääkseni mahdolliset ongelmat, jotka ovat saattaneet johtaa tähän jäädyttämiseen, ja olen sitoutunut varmistamaan täyden noudattamisen jatkossa. Pyydän teitä kunnioittavasti harkitsemaan uudelleen tätä jäädyttämistä ja palauttamaan pääsyn tiliini, jotta voin jatkaa asiakkaideni palvelemista ja ylläpitää ammatillisia suhteita, jotka ovat olennaisia liiketoiminnalleni. Olen valmis toimittamaan lisätietoja tai asiakirjoja, joita saatetaan tarvita tämän asian ratkaisemiseksi nopeasti."
+            ];
+        }
+
+        function loadMessages() {
+            try {
+                const savedMessages = localStorage.getItem('murunban_messages');
+                if (savedMessages) {
+                    const parsed = JSON.parse(savedMessages);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        unbanMessages = parsed;
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.log('Error loading messages, using defaults');
+            }
+            unbanMessages = getDefaultMessages();
+        }
+
+        // Enhanced account management system
+        let accounts = JSON.parse(localStorage.getItem('murunban_accounts') || '{}');
+        let currentUser = localStorage.getItem('murunban_current_user');
+        let loginTime = localStorage.getItem('murunban_login_time');
+
+        function disableButton(buttonId, duration = 2000) {
+            const btn = document.getElementById(buttonId);
+            if (btn) {
+                btn.classList.add('btn-disabled');
+                setTimeout(() => {
+                    btn.classList.remove('btn-disabled');
+                }, duration);
+            }
+        }
+
+        function setLoading(elementId, isLoading) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                if (isLoading) {
+                    element.classList.add('loading');
+                } else {
+                    element.classList.remove('loading');
+                }
+            }
+        }
+
+        function checkSession() {
+            return true;
+        }
+
+        function init() {
+            try {
+                loadMessages();
+                
+                // Reset all screens to hidden first
+                const screens = ['welcomeScreen', 'loginScreen', 'mainScreen', 'unbanForm', 'devPanel'];
+                screens.forEach(screenId => {
+                    const screen = document.getElementById(screenId);
+                    if (screen) screen.classList.add('hidden');
+                });
+                
+                // Always show welcome screen first
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                if (welcomeScreen) {
+                    welcomeScreen.classList.remove('hidden');
+                }
+                
+                // Create default admin account if not exists
+                if (!accounts['YNK']) {
+                    accounts['YNK'] = {
+                        password: 'YNK240824',
+                        isDeveloper: true,
+                        lastLogin: new Date().getTime(),
+                        isActive: true
+                    };
+                    localStorage.setItem('murunban_accounts', JSON.stringify(accounts));
+                }
+
+                // Check if user should be auto-logged in
+                if (currentUser && accounts[currentUser]) {
+                    welcomeScreen.classList.add('hidden');
+                    if (accounts[currentUser].isDeveloper) {
+                        showDevPanel();
+                    } else {
+                        showMainScreen();
+                    }
+                } else {
+                    // Clear invalid session
+                    if (currentUser) {
+                        localStorage.removeItem('murunban_current_user');
+                        localStorage.removeItem('murunban_login_time');
+                        currentUser = null;
+                        loginTime = null;
+                    }
+                }
+
+
+            } catch (e) {
+                console.error('Init error:', e);
+                // Fallback: always show welcome screen
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                if (welcomeScreen) {
+                    welcomeScreen.classList.remove('hidden');
+                }
+            }
+        }
+
+
+
+        function showLogin() {
+            try {
+                disableButton('startBtn');
+                document.getElementById('welcomeScreen').classList.add('hidden');
+                document.getElementById('loginScreen').classList.remove('hidden');
+            } catch (e) {
+                console.error('Show login error:', e);
+            }
+        }
+
+        function checkLogin() {
+            try {
+                disableButton('loginBtn');
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!username || !password) {
+                    showError('Username dan password harus diisi!');
+                    return;
+                }
+
+                // Check if account exists and password is correct
+                if (accounts[username] && accounts[username].password === password) {
+                    // Check if account has expired (except for YNK admin)
+                    if (username !== 'YNK' && accounts[username].createdAt) {
+                        const now = new Date().getTime();
+                        const oneMonth = 30 * 24 * 60 * 60 * 1000; // 30 days
+                        if (now - accounts[username].createdAt > oneMonth) {
+                            delete accounts[username];
+                            localStorage.setItem('murunban_accounts', JSON.stringify(accounts));
+                            showError('Akun sudah expired! Hubungi developer untuk perpanjang.');
+                            return;
+                        }
+                    }
+
+                    // Set current user session
+                    currentUser = username;
+                    loginTime = new Date().getTime().toString();
+                    localStorage.setItem('murunban_current_user', currentUser);
+                    localStorage.setItem('murunban_login_time', loginTime);
+                    
+                    // Update account status
+                    accounts[username].lastLogin = new Date().getTime();
+                    localStorage.setItem('murunban_accounts', JSON.stringify(accounts));
+
+                    // Clear login form
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('loginError').classList.add('hidden');
+
+                    // Navigate to appropriate screen
+                    if (accounts[username].isDeveloper) {
+                        showDevPanel();
+                    } else {
+                        showMainScreen();
+                    }
+                } else {
+                    // Invalid credentials - redirect to Telegram
+                    setTimeout(() => {
+                        window.open('https://t.me/Nadreth?text=bang%20mau%20beli%20murunban', '_blank');
+                    }, 1000);
+                    showError('Login gagal! Anda akan diarahkan ke Telegram untuk membeli akses...');
+                }
+            } catch (e) {
+                console.error('Login error:', e);
+                showError('Terjadi error saat login. Silakan coba lagi.');
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            document.getElementById('loginScreen').classList.add('shake');
+            setTimeout(() => {
+                document.getElementById('loginScreen').classList.remove('shake');
+            }, 500);
+        }
+
+        function showMainScreen() {
+            try {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainScreen').classList.remove('hidden');
+            } catch (e) {
+                console.error('Show main screen error:', e);
+            }
+        }
+
+        function showDevPanel() {
+            try {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('devPanel').classList.remove('hidden');
+                showDevMenu('unban');
+            } catch (e) {
+                console.error('Show dev panel error:', e);
+            }
+        }
+
+        function showDevMenu(menu) {
+            try {
+                document.getElementById('unbanMenuBtn').className = 'bg-gray-800 hover:bg-gray-700 border border-red-500/30 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105';
+                document.getElementById('accountsMenuBtn').className = 'bg-gray-800 hover:bg-gray-700 border border-red-500/30 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105';
+                
+                document.getElementById('devUnbanMenu').classList.add('hidden');
+                document.getElementById('devAccountsMenu').classList.add('hidden');
+                
+                if (menu === 'unban') {
+                    document.getElementById('unbanMenuBtn').className = 'premium-gradient hover:shadow-xl text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105';
+                    document.getElementById('devUnbanMenu').classList.remove('hidden');
+                    loadMessageEditors();
+                } else if (menu === 'accounts') {
+                    document.getElementById('accountsMenuBtn').className = 'premium-gradient hover:shadow-xl text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105';
+                    document.getElementById('devAccountsMenu').classList.remove('hidden');
+                    updateAccountList();
+                }
+            } catch (e) {
+                console.error('Show dev menu error:', e);
+            }
+        }
+
+        function loadMessageEditors() {
+            try {
+                setLoading('messageEditors', true);
+                const container = document.getElementById('messageEditors');
+                container.innerHTML = '';
+                
+                unbanMessages.forEach((message, index) => {
+                    const editor = document.createElement('div');
+                    editor.className = 'text-editor';
+                    editor.innerHTML = `
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-blue-400 font-semibold">Message ${index + 1}</span>
+                            <button onclick="deleteMessage(${index})" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl text-sm transition-all hover:scale-105 min-w-[80px]">
+                                Delete
+                            </button>
+                        </div>
+                        <textarea id="message_${index}" onkeyup="updateCounter(${index})" oninput="updateCounter(${index})">${message}</textarea>
+                        <div class="text-counter" id="counter_${index}">
+                            ${message.length} characters
+                        </div>
+                    `;
+                    container.appendChild(editor);
+                });
+                
+                updateTotalMessages();
+                setLoading('messageEditors', false);
+            } catch (e) {
+                console.error('Load message editors error:', e);
+                setLoading('messageEditors', false);
+            }
+        }
+
+        function updateCounter(index) {
+            try {
+                const textarea = document.getElementById(`message_${index}`);
+                const counter = document.getElementById(`counter_${index}`);
+                if (textarea && counter) {
+                    counter.textContent = `${textarea.value.length} characters`;
+                }
+            } catch (e) {
+                console.error('Update counter error:', e);
+            }
+        }
+
+        function updateTotalMessages() {
+            try {
+                const totalElement = document.getElementById('totalMessages');
+                if (totalElement) {
+                    totalElement.textContent = unbanMessages.length;
+                }
+            } catch (e) {
+                console.error('Update total messages error:', e);
+            }
+        }
+
+        function addNewMessage() {
+            try {
+                disableButton('addBtn');
+                unbanMessages.push("Kepada Yang Terhormat Tim Support WhatsApp, [Edit pesan ini sesuai kebutuhan Anda dengan minimal 1000 karakter untuk hasil terbaik]");
+                loadMessageEditors();
+            } catch (e) {
+                console.error('Add new message error:', e);
+                alert('Error menambah pesan: ' + e.message);
+            }
+        }
+
+        function deleteMessage(index) {
+            try {
+                if (confirm('Hapus pesan ini?')) {
+                    unbanMessages.splice(index, 1);
+                    loadMessageEditors();
+                }
+            } catch (e) {
+                console.error('Delete message error:', e);
+                alert('Error menghapus pesan: ' + e.message);
+            }
+        }
+
+        function saveAllMessages() {
+            try {
+                disableButton('saveBtn');
+                setLoading('messageEditors', true);
+                
+                const updatedMessages = [];
+                for (let i = 0; i < unbanMessages.length; i++) {
+                    const textarea = document.getElementById(`message_${i}`);
+                    if (textarea && textarea.value.trim()) {
+                        updatedMessages.push(textarea.value.trim());
+                    }
+                }
+                
+                if (updatedMessages.length === 0) {
+                    alert('Minimal harus ada 1 pesan!');
+                    setLoading('messageEditors', false);
+                    return;
+                }
+
+                unbanMessages = updatedMessages;
+                localStorage.setItem('murunban_messages', JSON.stringify(unbanMessages));
+                alert(`Berhasil menyimpan ${updatedMessages.length} pesan!`);
+                loadMessageEditors();
+            } catch (e) {
+                console.error('Save messages error:', e);
+                alert('Error menyimpan pesan: ' + e.message);
+                setLoading('messageEditors', false);
+            }
+        }
+
+        function resetToDefault() {
+            try {
+                if (confirm('Reset ke pesan default? Semua perubahan akan hilang.')) {
+                    disableButton('resetBtn');
+                    setLoading('messageEditors', true);
+                    unbanMessages = getDefaultMessages();
+                    localStorage.removeItem('murunban_messages');
+                    loadMessageEditors();
+                    alert('Pesan berhasil direset ke default!');
+                }
+            } catch (e) {
+                console.error('Reset to default error:', e);
+                alert('Error reset pesan: ' + e.message);
+                setLoading('messageEditors', false);
+            }
+        }
+
+        function testUnban() {
+            try {
+                disableButton('testBtn');
+                const phoneNumber = document.getElementById('testPhone').value;
+                
+                if (!phoneNumber) {
+                    alert('Mohon masukkan nomor untuk test!');
+                    return;
+                }
+
+                if (unbanMessages.length === 0) {
+                    alert('Tidak ada pesan unban tersedia!');
+                    return;
+                }
+
+                const fullNumber = '+62' + phoneNumber;
+                const randomMessage = unbanMessages[Math.floor(Math.random() * unbanMessages.length)];
+                const finalMessage = randomMessage.replace(/\(nomor\)/g, fullNumber);
+                
+                alert('Preview pesan yang akan dikirim:\n\n' + finalMessage.substring(0, 500) + '...');
+            } catch (e) {
+                console.error('Test unban error:', e);
+                alert('Error test unban: ' + e.message);
+            }
+        }
+
+        function showUnbanForm() {
+            try {
+                disableButton('unbanBtn');
+                document.getElementById('mainScreen').classList.add('hidden');
+                document.getElementById('unbanForm').classList.remove('hidden');
+            } catch (e) {
+                console.error('Show unban form error:', e);
+            }
+        }
+
+        function backToMain() {
+            try {
+                document.getElementById('unbanForm').classList.add('hidden');
+                document.getElementById('mainScreen').classList.remove('hidden');
+            } catch (e) {
+                console.error('Back to main error:', e);
+            }
+        }
+
+        function processUnban() {
+            try {
+                if (isProcessing) return;
+                isProcessing = true;
+                
+                disableButton('gasUnbanBtn', 5000);
+                const phoneNumber = document.getElementById('phoneNumber').value.trim();
+                
+                if (!phoneNumber) {
+                    alert('Mohon masukkan nomor telepon!');
+                    isProcessing = false;
+                    return;
+                }
+
+                // Validate phone number format
+                const phoneRegex = /^[0-9]{8,13}$/;
+                if (!phoneRegex.test(phoneNumber)) {
+                    alert('Format nomor tidak valid! Masukkan 8-13 digit angka saja.');
+                    isProcessing = false;
+                    return;
+                }
+
+                if (unbanMessages.length === 0) {
+                    alert('Tidak ada pesan unban tersedia! Hubungi developer.');
+                    isProcessing = false;
+                    return;
+                }
+
+                const fullNumber = '+62' + phoneNumber;
+                const randomMessage = unbanMessages[Math.floor(Math.random() * unbanMessages.length)];
+                const finalMessage = randomMessage.replace(/\(nomor\)/g, fullNumber);
+                
+                const recipients = [
+                   
+                    'support@support.whatsapp.com',
+                    'smb@support.whatsapp.com'
+                ];
+                
+                const subject = 'Permohonan Unban Akun WhatsApp';
+                const mailtoLink = `mailto:${recipients.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(finalMessage)}`;
+                
+                // Try to open email client
+                try {
+                    window.location.href = mailtoLink;
+                    alert('Email client akan terbuka. Jika tidak terbuka otomatis, salin pesan dan kirim manual ke support WhatsApp.');
+                } catch (emailError) {
+                    // Fallback: show message to copy
+                    const textarea = document.createElement('textarea');
+                    textarea.value = finalMessage;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('Pesan telah disalin ke clipboard. Silakan paste ke email dan kirim ke support WhatsApp.');
+                }
+                
+                setTimeout(() => {
+                    isProcessing = false;
+                }, 3000);
+                
+            } catch (e) {
+                console.error('Process unban error:', e);
+                alert('Terjadi error saat memproses unban. Silakan coba lagi.');
+                isProcessing = false;
+            }
+        }
+
+        function createAccount() {
+            try {
+                disableButton('createBtn');
+                const username = document.getElementById('newUsername').value.trim();
+                const password = document.getElementById('newPassword').value.trim();
+
+                if (!username || !password) {
+                    alert('Username dan password harus diisi!');
+                    return;
+                }
+
+                if (username.length < 3) {
+                    alert('Username minimal 3 karakter!');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    alert('Password minimal 6 karakter!');
+                    return;
+                }
+
+                if (accounts[username]) {
+                    alert('Username sudah ada! Pilih username lain.');
+                    return;
+                }
+
+                // Create new account
+                accounts[username] = {
+                    password: password,
+                    isDeveloper: false,
+                    createdAt: new Date().getTime(),
+                    lastLogin: null
+                };
+
+                localStorage.setItem('murunban_accounts', JSON.stringify(accounts));
+                
+                // Clear form
+                document.getElementById('newUsername').value = '';
+                document.getElementById('newPassword').value = '';
+                
+                updateAccountList();
+                alert(`Akun "${username}" berhasil dibuat! Akun akan aktif selama 30 hari.`);
+            } catch (e) {
+                console.error('Create account error:', e);
+                alert('Error membuat akun: ' + e.message);
+            }
+        }
+
+        function updateAccountList() {
+            try {
+                const accountList = document.getElementById('accountList');
+                accountList.innerHTML = '';
+
+                for (let username in accounts) {
+                    if (username !== 'YNK') {
+                        const accountDiv = document.createElement('div');
+                        accountDiv.className = 'bg-black/40 p-4 rounded-xl border border-purple-500/20 flex justify-between items-center hover:bg-black/60 transition-all';
+                        
+                        // Calculate days remaining
+                        const now = new Date().getTime();
+                        const createdAt = accounts[username].createdAt || now;
+                        const oneMonth = 30 * 24 * 60 * 60 * 1000;
+                        const timeLeft = oneMonth - (now - createdAt);
+                        const daysLeft = Math.max(0, Math.ceil(timeLeft / (24 * 60 * 60 * 1000)));
+                        
+                        accountDiv.innerHTML = `
+                            <div class="flex flex-col">
+                                <span class="font-medium text-white">${username}</span>
+                                <span class="text-xs text-gray-400">Sisa: ${daysLeft} hari</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="text-sm px-2 py-1 rounded-lg ${daysLeft > 0 ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}">
+                                    ${daysLeft > 0 ? 'Aktif' : 'Expired'}
+                                </span>
+                                <button onclick="deleteAccount('${username}')" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl text-sm transition-all hover:scale-105 min-w-[80px]">
+                                    Hapus
+                                </button>
+                            </div>
+                        `;
+                        accountList.appendChild(accountDiv);
+                    }
+                }
+            } catch (e) {
+                console.error('Update account list error:', e);
+            }
+        }
+
+        function deleteAccount(username) {
+            try {
+                if (confirm(`Hapus akun ${username}?`)) {
+                    delete accounts[username];
+                    localStorage.setItem('murunban_accounts', JSON.stringify(accounts));
+                    updateAccountList();
+                }
+            } catch (e) {
+                console.error('Delete account error:', e);
+                alert('Error menghapus akun: ' + e.message);
+            }
+        }
+
+        function logout() {
+            try {
+                // Disable both logout buttons
+                disableButton('logoutBtn');
+                disableButton('mainLogoutBtn');
+                
+                // Update last login time for tracking
+                if (currentUser && accounts[currentUser]) {
+                    accounts[currentUser].lastLogin = new Date().getTime();
+                    localStorage.setItem('murunban_accounts', JSON.stringify(accounts));
+                }
+                
+                localStorage.removeItem('murunban_current_user');
+                localStorage.removeItem('murunban_login_time');
+                currentUser = null;
+                loginTime = null;
+                
+                // Reset all screens properly
+                const screens = ['devPanel', 'mainScreen', 'unbanForm', 'loginScreen'];
+                screens.forEach(screenId => {
+                    const screen = document.getElementById(screenId);
+                    if (screen) screen.classList.add('hidden');
+                });
+                
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                if (welcomeScreen) welcomeScreen.classList.remove('hidden');
+                
+                // Clear all form inputs
+                const inputs = ['username', 'password', 'phoneNumber', 'testPhone', 'newUsername', 'newPassword'];
+                inputs.forEach(inputId => {
+                    const input = document.getElementById(inputId);
+                    if (input) input.value = '';
+                });
+                
+                // Hide error messages
+                const loginError = document.getElementById('loginError');
+                if (loginError) loginError.classList.add('hidden');
+                
+            } catch (e) {
+                console.error('Logout error:', e);
+                // Fallback: force redirect to welcome screen
+                location.reload();
+            }
+        }
+
+        // Logo is now fixed and cannot be changed
+
+        // Initialize app
+        init();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f8fe36622ccecf',t:'MTc1Nzk0ODQxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
